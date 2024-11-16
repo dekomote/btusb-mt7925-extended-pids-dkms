@@ -1,0 +1,54 @@
+name: Build SRPM
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Using Ubuntu for the GitHub runner environment
+
+    container:
+      image: fedora:latest  # Use Fedora container for building SRPM
+
+    permissions:
+      contents: write
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up RPM build environment
+        run: |
+          # Update and install necessary RPM build tools
+          sudo dnf update -y
+          sudo dnf install -y rpmdevtools redhat-rpm-config rpmbuild
+
+      - name: Create SRPM
+        run: |
+          # Set up RPM build directories
+          mkdir -p ~/rpmbuild/{SOURCES,SPECS}
+
+          # Copy your SPEC file to the SPECS directory
+          cp btusb-mt7925-extended-pids.spec ~/rpmbuild/SPECS/
+
+          # Create a tarball of your source code
+          tar -czf ~/rpmbuild/SOURCES/btusb-mt7925-extended-pids.tar.gz btusb-mt7925-extended-pids
+
+          # Build the SRPM
+          rpmbuild -bs ~/rpmbuild/SPECS/btusb-mt7925-extended-pids.spec
+
+      - name: Upload SRPM as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: btusb-mt7925-extended-pids
+          compression-level: 0
+          path: ~/rpmbuild/SRPMS/*.src.rpm
+
+      - name: Create GitHub release (optional)
+        uses: softprops/action-gh-release@v1
+        with:
+          files: ~/rpmbuild/SRPMS/*.src.rpm
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
