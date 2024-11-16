@@ -1,0 +1,10 @@
+#!/bin/bash
+
+case $1 in
+  pre)
+    modprobe -r btusb
+    ;;
+  post)
+    modprobe btusb
+    ;;
+esac
