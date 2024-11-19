@@ -1,6 +1,6 @@
 PACKAGE_NAME="@PKGNAME@"
 PACKAGE_VERSION="@VERSION@"
-MAKE="make -j`nproc`"
+MAKE="make -j`nproc` KVER=${kernelver}"
 CLEAN="make clean"
 BUILT_MODULE_NAME[0]="btusb"
 BUILT_MODULE_LOCATION[0]=""

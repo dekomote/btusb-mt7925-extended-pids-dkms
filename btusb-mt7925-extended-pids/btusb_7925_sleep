@@ -2,9 +2,9 @@
 
 case $1 in
   pre)
-    modprobe -r btusb
+    rfkill block all
     ;;
   post)
-    modprobe btusb
+    rfkill unblock all
     ;;
 esac

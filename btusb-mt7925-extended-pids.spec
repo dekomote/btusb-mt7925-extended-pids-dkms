@@ -1,5 +1,5 @@
 Name:           btusb-mt7925-extended-pids
-Version:        1.1
+Version:        1.2
 Release:        1%{?dist}
 Summary:        Extended PID support for the mt7925 chipset
 
@@ -44,6 +44,11 @@ dkms install -m %{name} -v %{version}
 dkms remove -m %{name} -v %{version} --all
 
 %changelog
+
+* Tue Nov 19 2024 Dejan Noveski <dr.mote@gmail.com> - 1.2-1
+- DKMS Fix
+- Better sleep script
+
 * Sat Nov 16 2024 Dejan Noveski <dr.mote@gmail.com> - 1.0-1
 - Initial release with extended PID support for mt7925 chipset.
 - Sleep fix
