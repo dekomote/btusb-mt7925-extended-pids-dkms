@@ -1,5 +1,5 @@
 Name:           btusb-mt7925-extended-pids
-Version:        1.5
+Version:        1.6
 Release:        1%{?dist}
 Summary:        Extended PID support for the mt7925 chipset
 
@@ -18,7 +18,6 @@ Mainly 0xe124, found in Gigabyte Aorus Elite X870 and other x870 boards
 %setup -q -n %{name}
 
 %build
-sh update.sh %{version}
 sed "s/@PKGNAME@/%{name}/" dkms.conf.template | sed "s/@VERSION@/%{version}/" > dkms.conf
 sed -i "s/^MODVER = .*$/MODVER = %{version}/" Makefile
 rm dkms.conf.template
@@ -46,6 +45,9 @@ dkms install -m %{name} -v %{version}
 dkms remove -m %{name} -v %{version} --all
 
 %changelog
+
+* Tue Jan 7 2025 Dejan Noveski <dr.mote@gmail.com> - 1.6-1
+- Use the new kernel when building with DKMS
 
 * Wed Dec 18 2024 Dejan Noveski <dr.mote@gmail.com> - 1.5-1
 - Better handling of updates, this should work for all kernels

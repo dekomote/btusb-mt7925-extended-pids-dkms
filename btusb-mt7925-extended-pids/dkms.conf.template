@@ -1,6 +1,6 @@
 PACKAGE_NAME="@PKGNAME@"
 PACKAGE_VERSION="@VERSION@"
-MAKE="sh update.sh \"@VERSION@\" && make -j`nproc` KVER=${kernelver}"
+MAKE="make -j`nproc` KVER=${kernelver} MODVER=@VERSION@"
 CLEAN="make clean"
 BUILT_MODULE_NAME[0]="btusb"
 BUILT_MODULE_LOCATION[0]=""

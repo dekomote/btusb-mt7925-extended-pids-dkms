@@ -1,17 +1,17 @@
-KERNEL_SEMVER=$(uname -r | cut -d- -f1)
+KVER=${KVER:-$(uname -r | cut -d- -f1)}
 
-VERSION=${1:-"1.5"}
+MODVER=${MODVER:-"1.6"}
 
 
 for i in $(echo "intel bcm rtl mtk" | sed 's/ /\n/g'); do
-  curl -O "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/plain/drivers/bluetooth/bt$i.h?h=v$KERNEL_SEMVER"
-	curl -O "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/plain/drivers/bluetooth/bt$i.c?h=v$KERNEL_SEMVER"
+  curl -O "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/plain/drivers/bluetooth/bt$i.h?h=v$KVER"
+	curl -O "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/plain/drivers/bluetooth/bt$i.c?h=v$KVER"
 done
 
-curl -O "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/plain/drivers/bluetooth/btusb.c?h=v$KERNEL_SEMVER"
+curl -O "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/plain/drivers/bluetooth/btusb.c?h=v$KVER"
 
 
-sed -i "s/^#define VERSION \".*\"/#define VERSION \"$VERSION\"/" btusb.c
+sed -i "s/^#define VERSION \".*\"/#define VERSION \"$MODVER\"/" btusb.c
 awk '
 {
     if ($0 ~ /\{ USB_DEVICE\(0x0489, 0xe0c8\), .driver_info = BTUSB_MEDIATEK/) {
